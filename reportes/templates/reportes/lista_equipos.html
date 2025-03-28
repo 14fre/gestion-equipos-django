@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Equipos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f4f7fa; color: #333; padding: 20px; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .nav-links { margin-bottom: 20px; text-align: center; }
+        .nav-links a { margin: 0 10px; padding: 8px 16px; background-color: #3498db; color: #fff; border-radius: 5px; text-decoration: none; }
+        .nav-links a:hover { background-color: #2980b9; }
+        ul { list-style: none; margin-top: 20px; }
+        ul li { padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        ul li:last-child { border-bottom: none; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .estado-activo { color: #27ae60; font-weight: bold; }
+        .estado-baja { color: #e74c3c; font-weight: bold; }
+        .actions a { margin-left: 10px; padding: 5px 10px; background-color: #e74c3c; color: #fff; border-radius: 3px; }
+        .actions a.editar { background-color: #f1c40f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Equipos Registrados</h1>
+        <div class="nav-links">
+            <a href="{% url 'registrar_equipo' %}">Registrar Equipo</a>
+            <a href="{% url 'reportar_danio' %}">Reportar Daño</a>
+            <a href="{% url 'logout' %}">Cerrar Sesión</a>
+        </div>
+        <ul>
+            {% for equipo in equipos %}
+                <li>
+                    <span>
+                        <a href="{% url 'detalle_equipo' equipo.id %}">{{ equipo.nombre }} ({{ equipo.tipo }})</a>
+                        - {{ equipo.ubicacion }} 
+                        - <span class="{% if equipo.activo %}estado-activo{% else %}estado-baja{% endif %}">
+                            {% if equipo.activo %}Activo{% else %}Dado de Baja{% endif %}
+                        </span>
+                    </span>
+                    <span class="actions">
+                        <a href="{% url 'editar_equipo' equipo.id %}" class="editar">Editar</a>
+                        <a href="{% url 'eliminar_equipo' equipo.id %}">Eliminar</a>
+                    </span>
+                </li>
+            {% empty %}
+                <li>No hay equipos registrados.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles de {{ equipo.nombre }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f4f7fa; color: #333; padding: 20px; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        h2 { color: #2c3e50; margin-top: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .detalle-info { margin-bottom: 20px; }
+        .detalle-info p { margin: 5px 0; }
+        ul { list-style: none; margin-top: 20px; }
+        ul li { padding: 10px; border-bottom: 1px solid #eee; }
+        ul li:last-child { border-bottom: none; }
+        .estado-activo { color: #27ae60; font-weight: bold; }
+        .estado-baja { color: #e74c3c; font-weight: bold; }
+        .nav-links { margin-top: 20px; text-align: center; }
+        .nav-links a { padding: 8px 16px; background-color: #3498db; color: #fff; border-radius: 5px; text-decoration: none; }
+        .nav-links a:hover { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ equipo.nombre }} ({{ equipo.tipo }})</h1>
+        <div class="detalle-info">
+            <p>Descripción: {{ equipo.descripcion }}</p>
+            <p>Ubicación: {{ equipo.ubicacion }}</p>
+            <p>Estado: <span class="{% if equipo.activo %}estado-activo{% else %}estado-baja{% endif %}">
+                {% if equipo.activo %}Activo{% else %}Dado de Baja{% endif %}
+            </span></p>
+        </div>
+        <h2>Reportes de Daños</h2>
+        <ul>
+            {% for reporte in reportes %}
+                <li>{{ reporte.fecha_reporte }} - {{ reporte.descripcion_danio }} ({{ reporte.estado }})</li>
+            {% empty %}
+                <li>No hay reportes.</li>
+            {% endfor %}
+        </ul>
+        <div class="nav-links">
+            <a href="{% url 'lista_equipos' %}">Volver</a>
+        </div>
+    </div>
+</body>
+</html>
